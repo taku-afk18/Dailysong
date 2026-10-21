@@ -174,7 +174,7 @@ useEffect(() => {
   <p>
     Made by{" "}
     <a
-      href="https://github.com/santiRojas18"
+      href="https://github.com/taku-afk18"
       target="_blank"
       rel="noreferrer"
       className="text-gray-200 underline-offset-2 hover:underline"
