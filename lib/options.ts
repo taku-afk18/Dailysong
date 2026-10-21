@@ -1,0 +1,2 @@
+export const GENRES = ["Rock", "Pop", "Salsa", "Reggaeton", "Jazz", "Hip hop", "Electronic", "Classical", "Vallenato", "Indie"];
+export const MOODS = ["Happy", "Sad", "Relaxed", "Energetic", "Romantic", "Nostalgic", "Focused"];
