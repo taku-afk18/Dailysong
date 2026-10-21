@@ -97,59 +97,110 @@ useEffect(() => {
 
   const select = "w-full rounded border border-white/30 bg-transparent p-2 text-white [color-scheme:dark]";
 
-  return (
-     <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-white">
-      <div className="absolute left-1/2 top-1/4 h-64 w-64 -translate-x-[90%] rounded-full bg-green-500/50 blur-3xl" />
-      <div className="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-[10%] rounded-full bg-purple-500/50 blur-3xl" />
+  return (<div className="relative min-h-screen overflow-hidden bg-zinc-950 text-white">
+  <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/4 h-64 w-64 -translate-x-[90%] rounded-full bg-green-500/50 blur-3xl" />
+<div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 h-64 w-64 -translate-x-[10%] rounded-full bg-purple-500/50 blur-3xl" />
 
-      <main className="mx-auto max-w-md space-y-6 p-6">
-        <h1 className="text-center text-5xl font-bold font-mono">D A I L Y   -- S O N G</h1>
+  <main className="relative mx-auto max-w-md space-y-6 p-6">
+    <h1 className="text-center font-mono text-3xl font-bold tracking-[0.3em] sm:text-5xl">
+      DAILY SONG
+    </h1>
 
-        {!locked && (
-          <>
-            <select className={select} value={genre} onChange={(e) => setGenre(e.target.value)}>
-  {GENRES.map((g) => (
-    <option key={g} value={g} className="bg-zinc-900 text-white">{g}</option>
-  ))}
-</select>
+    {!locked && (
+      <>
+        <select className={select} value={genre} onChange={(e) => setGenre(e.target.value)}>
+          {GENRES.map((g) => (
+            <option key={g} value={g} className="bg-zinc-900 text-white">{g}</option>
+          ))}
+        </select>
 
-<select className={select} value={mood} onChange={(e) => setMood(e.target.value)}>
-  {MOODS.map((m) => (
-    <option key={m} value={m} className="bg-zinc-900 text-white">{m}</option>
-  ))}
-</select>
-            <button onClick={handleSubmit} disabled={loading}
-              className="w-full rounded bg-green-600 px-4 py-2 text-white disabled:opacity-50">
-              {loading ? "..." : ":)"}
-            </button>
-          </>
+        <select className={select} value={mood} onChange={(e) => setMood(e.target.value)}>
+          {MOODS.map((m) => (
+            <option key={m} value={m} className="bg-zinc-900 text-white">{m}</option>
+          ))}
+        </select>
+
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          aria-label="Get my song"
+          className="w-full rounded bg-green-600 px-4 py-2 text-white disabled:opacity-50"
+        >
+          {loading ? "..." : ":)"}
+        </button>
+      </>
+    )}
+
+    {error && <p className="text-red-500">{error}</p>}
+
+    {stored && (
+      <div className="space-y-3 rounded-2xl border border-white/10 bg-white/10 p-6 shadow-xl backdrop-blur-md">
+        <img
+          src={stored.track.spotify.album.images[0]?.url}
+          alt={stored.track.title}
+          className="w-full rounded"
+        />
+        <a
+          href={stored.track.spotify.external_urls.spotify}
+          target="_blank"
+          rel="noreferrer"
+          className="block text-lg font-semibold hover:underline"
+        >
+          {stored.track.title} · {stored.track.artist}
+        </a>
+        <a
+          href={stored.track.spotify.external_urls.spotify}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 text-sm hover:underline"
+        >
+          <span>Listen on</span>
+          <img src="/spotify-logo-white.svg" alt="Spotify" className="h-6 w-auto" />
+        </a>
+        <p className="text-sm text-gray-300">{stored.track.reason}</p>
+        {locked && (
+          <p className="text-sm">
+            You can request another song in {formatRemaining(remaining)}.
+          </p>
         )}
+      </div>
+    )}
 
-        {error && <p className="text-red-500">{error}</p>}
+    <footer className="space-y-2 border-t border-white/10 pt-6 text-center text-[11px] leading-relaxed text-gray-400 text-balance">
+  <p>
+    Music data by Spotify · Not affiliated with or endorsed by Spotify · AI picks may be inaccurate
+  </p>
 
-        {stored && (
-          
-          <div className="rounded-2xl border border-white/10 bg-white/10 p-6 shadow-xl backdrop-blur-md">
-            <img src={stored.track.spotify.album.images[0]?.url} alt={stored.track.title}
-              className="w-full rounded" />
-            <a href={stored.track.spotify.external_urls.spotify} target="_blank" rel="noreferrer"
-              className="block text-lg font-semibold hover:underline">
-              {stored.track.title} · {stored.track.artist}
-            </a>
-            <p className="text-sm text-gray-500">{stored.track.reason}</p>
-            {locked && (
-              <p className="text-sm">
-                You can request another song in {formatRemaining(remaining)}.
-              </p>
-            )}
-          </div>
-        )}
-        {IS_DEV && (
-    <button onClick={handleReset} className="text-xs text-gray-500 underline">
-      Reiniciar
-    </button>
-  )}
-      </main>
-    </div>
-    );
+  <p>
+    Made by{" "}
+    <a
+      href="https://github.com/santiRojas18"
+      target="_blank"
+      rel="noreferrer"
+      className="text-gray-200 underline-offset-2 hover:underline"
+    >
+      taku
+    </a>
+    {" "}
+  </p>
+
+  <details>
+    <summary className="cursor-pointer list-none underline-offset-2 hover:underline [&::-webkit-details-marker]:hidden">
+      Privacy
+    </summary>
+    <p className="mt-2">
+      No accounts are created. Your IP address is stored temporarily to prevent abuse,
+      and your last song is saved in your browser.
+    </p>
+  </details>
+</footer>
+
+    {IS_DEV && (
+      <button onClick={handleReset} className="text-xs text-gray-500 underline">
+        Reiniciar
+      </button>
+    )}
+  </main>
+</div>
+);
 }
